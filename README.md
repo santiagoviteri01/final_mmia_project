@@ -1,74 +1,59 @@
-Final Project - Fantasy Premier League Forecasting
-This repository contains the code and data needed to run forecasts and simulate results for Fantasy Premier League (FPL). Follow these instructions to set up the environment, run the models, and replicate the results.
+# Final Project Instructions
 
-Table of Contents
-Project Overview
-Prerequisites
-Setup Instructions
-Running the Model
-Subsequent Runs
-Final Adjustments
-Generating Results and Analysis
-Summary
-Project Overview
-The purpose of this project is to forecast player and team performance for upcoming FPL gameweeks based on historical data. The project includes multiple models, data preparation, and custom predictions to help you optimize FPL decisions.
+This guide provides a step-by-step explanation of how to set up and run the final project for replicating results.
 
-Prerequisites
-Download Required Files:
-fpl.zip: Contains all the datasets needed for model training and predictions.
-Notebook Files (.ipynb): Download both notebooks provided in this repository.
-Setup Instructions
-Step 1: Environment Setup
-Download and extract fpl.zip to your local machine. This folder includes the datasets necessary to replicate the project’s results.
-Ensure that both .ipynb files (the main notebooks) are in the same directory as the extracted datasets for seamless access.
-Running the Model
-Step 2: Initial Model Run
-Open the first notebook and run all cells from the beginning up to the section labeled "Dataset for the first model:".
-Continue running all cells sequentially for the first full run.
-Important Code Modification
-For the initial run:
-Run all cells in order without modification.
-For subsequent runs:
-Uncomment the following lines in the notebook:
-python
-Copy code
-# After the first run, uncomment the following lines:
-# n = 1
-# delta = 3 * n + (n - 1)
-# df_1_2023_2024_m = df_1_2023_2024[df_1_2023_2024["GW"] <= (min(df_1_2023_2024["GW"] + 3))]
-# df_combined = pd.concat([df_1_2016_2017, df_1_2017_2018, df_1_2018_2019, df_1_2019_2020, df_1_2020_2021, df_1_2021_2022, df_1_2022_2023, df_1_2023_2024_m], ignore_index=True)
-Run the "Dictionaries" Section: Run this to set up the required data mappings.
+## Prerequisites
 
-Forecast Section:
+Download the following files:
 
-Run the Re-training and Predicting subsection to generate a forecast file with total points and values.
-Subsequent Runs
-After the initial run, you will need to repeat this process for different values of n (1, 2, 4, 5,...,9.):
+- **`fpl.zip`**: This archive contains all the datasets needed for the project.
+- **Notebook files**: Download both `.ipynb` files provided in this repository.
 
-Data Preparation: Run the Data Preparation and First Run of the Fantasy Team sections.
+## Instructions
 
-This will generate two CSV files:
-gameweek_solutions_1_4_2023_2024.csv
-df_1_4.csv
-For each new prediction, adjust n and ensure you’ve added the previous gameweek solutions to your working directory.
+### Step 1: Setup
 
-Final Adjustments
-When n=9, forecast only two gameweeks: GW 37 and GW 38.
+1. Download and extract `fpl.zip` to your local machine.
+2. Ensure both `.ipynb` files are available in the same working directory as the extracted dataset.
 
-Set:
+### Step 2: Run the First Model Notebook
 
-val_1 = 37
-val_2 = 38
-In the Training and Predicting section:
+1. Run the notebook from the beginning and complete the first model execution.
+2. Follow these guidelines during execution:
+   - **For the initial run**:
+     - Run all cells up to **"Dataset for the first model:"**.
+   - **For subsequent runs**:
+     - Uncomment the following lines and adjust the variables as explained:
+       ```python
+       # After the first run, uncomment the following line and change the variable delta by 3*n + (n-1), where n = 1, 2, 4, 5, 6, 7, 8, 9.
+       # n = 1
+       # delta = 3 * n + (n - 1)
+       # df_1_2023_2024_m = df_1_2023_2024[df_1_2023_2024["GW"] <= (min(df_1_2023_2024["GW"] + 3))]
+       # df_combined = pd.concat([df_1_2016_2017, df_1_2017_2018, df_1_2018_2019, df_1_2019_2020, df_1_2020_2021, df_1_2021_2022, df_1_2022_2023, df_1_2023_2024_m], ignore_index=True)
+       ```
+3. Run the **dictionaries section**, followed by **Re-training and Predicting** within the **Forecast** section.
+   - A file with forecasts for total points and values will be created at this stage.
 
-Update:
-python
-Copy code
-forecast = forecast_future(best_model, combined_data, data_module.n_steps, n_forecast=2)
-In the Data Preparation section:
-python
-Copy code
-filtered_df_c_2['GW'] = filtered_df_c_2['GW'].replace({1: val_1, 2: val_2})
-Generating Results and Analysis
-Run the Actual vs Real Comparison section. This will create a CSV file for final analysis.
-Analysis Section: Use the generated file to analyze and interpret the project’s results.
+### Step 3: First Prediction Run
+
+- **Data Preparation**:
+  - Once you have the first predictions, continue by running the **Data Preparation** and **First Run of the Fantasy Team** sections.
+  - This will generate two CSV files:
+    - `gameweek_solutions_1_4_2023_2024.csv`
+    - `df_1_4.csv`
+
+### Subsequent Runs
+
+- For each new run, repeat the steps as above, modifying the variable `n` as follows:
+  - If `n = 2`, ensure the `gameweek_solutions_1_4_2023_2024.csv` and `df_1_4.csv` files are in the working directory.
+  - Use these files for each new prediction until you reach `n=9`.
+
+### Step 4: Final Adjustments and Predictions
+
+- When `n=9`, you'll be forecasting only two gameweeks: GW 37 and GW 38.
+- Adjust `val_1` to 37 and `val_2` to 38 in your code.
+
+- In the **Training and Predicting** section:
+  ```python
+  forecast = forecast_future(best_model, combined_data, data_module.n_steps, n_forecast=4)
+
