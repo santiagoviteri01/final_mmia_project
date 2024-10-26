@@ -55,5 +55,11 @@ Download the following files:
 
 - In the **Training and Predicting** section:
   ```python
-  forecast = forecast_future(best_model, combined_data, data_module.n_steps, n_forecast=4)
+  forecast = forecast_future(best_model, combined_data, data_module.n_steps, n_forecast=2)
+  ```
+- In the **Data Preparation** section:
+    ```python
+    - filtered_df_c_2['GW'] = filtered_df_c_2['GW'].replace({1: val_1, 2: val_2})
+    - filtered_df_p_2['GW'] = filtered_df_p_2['GW'].replace({1: val_1, 2: val_2})
+  ```
 
